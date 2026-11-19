@@ -260,6 +260,28 @@ cd bend && go test ./... # bend's tests
 The plugin's own issues are kept in beads, in this repository. With `bend`
 built, `bend ready` lists what is open.
 
+## Fork maintenance
+
+In `arbitraged-life/airbender`, [Scheduled upstream sync](.github/workflows/upstream-sync.yml)
+checks `mturilin/airbender`'s `main` daily at 07:37 UTC and proposes updates to
+`fix/canonical-readonly-pr-delivery`. Run it manually from the fork's Actions tab
+to check sooner. The workflow lives on the fork's default `main`; that branch hosts
+automation, not the maintained plugin.
+
+Only one sync PR stays open at a time. Its immutable upstream snapshot is never
+force-pushed; close it to decline that revision, or reopen it to reconsider.
+A later upstream revision can produce another proposal. The workflow validates
+the proposed merge using TypeScript, Node tests, and Go tests in a read-only job.
+Conflicts fail that job without changing the customized branch. Follow the Actions
+run linked in the PR body for validation: token-created PRs do not trigger ordinary
+PR workflows. Manual reruns validate the open proposal against the current target.
+
+Review and merge sync PRs yourself. Nothing approves, merges, tags, releases,
+or updates installed plugins automatically. GitHub Actions must be enabled with
+permission to create PRs; the job requests only contents and PR write access.
+GitHub may disable scheduled workflows after 60 days of inactivity in a public
+repository; re-enable this workflow in Actions if that happens.
+
 ## Licence
 
 Copyright (c) 2026 Mikhail Turilin. Airbender, `bend` included, is free
